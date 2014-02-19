@@ -2,7 +2,7 @@ require 'sinatra'
 require 'uri'
 require 'mini_magick'
 require 'open-uri'
-require 'CGI'
+require 'cgi'
 
 def to_image url, size
   #https://google-developers.appspot.com/chart/infographics/docs/qr_codes
@@ -56,8 +56,4 @@ post '/qrcode' do
   puts "Final URL: #{url}"
   
   image = to_image(url, 480)
-end
-
-get '/:url' do
-  
 end
