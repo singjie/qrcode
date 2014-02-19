@@ -45,6 +45,7 @@ post '/qrcode' do
   utm_params = []
   hash.each do |key, value|
     next if key == "url"
+    next if value.nil? || value.empty?
     utm_params << "#{key}=#{value}"
   end
   
