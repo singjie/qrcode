@@ -2,11 +2,16 @@ require 'sinatra'
 require 'uri'
 require 'mini_magick'
 require 'open-uri'
+require 'CGI'
 
 def to_image url, size
   #https://google-developers.appspot.com/chart/infographics/docs/qr_codes
   
-  enc_uri = URI.escape("http://chart.apis.google.com/chart?cht=qr&chs=#{size}x#{size}&chl=#{url}&chld=H|0")
+  escaped_url = CGI::escape(url)
+  
+  #enc_uri = URI.escape("http://chart.apis.google.com/chart?cht=qr&chs=#{size}x#{size}&chl=#{escaped_url}&chld=H|0")
+  
+  enc_uri = "http://chart.apis.google.com/chart?cht=qr&chs=#{size}x#{size}&chl=#{escaped_url}&chld=#{CGI::escape("H|0")}"
   
   puts "Encoded URL #{enc_uri}"
   
