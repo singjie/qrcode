@@ -4,7 +4,7 @@ require 'mini_magick'
 require 'open-uri'
 require 'cgi'
 
-def to_image url, size
+def to_image url, size, bee
   #https://google-developers.appspot.com/chart/infographics/docs/qr_codes
   
   escaped_url = CGI::escape(url)
@@ -19,8 +19,12 @@ def to_image url, size
   
   image = MiniMagick::Image.read(data)
   
-  result = image.composite(MiniMagick::Image.open("icon.png")) do |c|
-    c.gravity "center"
+  if bee
+    result = image.composite(MiniMagick::Image.open("icon.png")) do |c|
+      c.gravity "center"
+    end
+  else
+    result = image
   end
   
   content_type 'application/octet-stream'
@@ -46,6 +50,7 @@ post '/qrcode' do
   hash.each do |key, value|
     next if key == "url"
     next if value.nil? || value.empty?
+    next if key == "check_box"
     utm_params << "#{key}=#{value}"
   end
   
@@ -56,5 +61,5 @@ post '/qrcode' do
   
   puts "Final URL: #{url}"
   
-  image = to_image(url, 480)
+  image = to_image(url, 480, !hash["check_box"].nil?)
 end
