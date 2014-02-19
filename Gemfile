@@ -1,0 +1,6 @@
+source 'https://rubygems.org'
+gem 'sinatra'
+gem 'rqrcode-rails3'
+gem 'mini_magick'
+gem 'rqrcode'
+gem 'chunky_png'
